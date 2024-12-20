@@ -16,5 +16,8 @@
 		${bDto.bnum} / ${bDto.bname }  / ${bDto.btitle }  / ${bDto.bdate } / ${bDto.bhit } <br> 
 	</c:forEach>
 	
+	
+	<a href="delet_form">글 삭제</a>
+	
 </body>
 </html>

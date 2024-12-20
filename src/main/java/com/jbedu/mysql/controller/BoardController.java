@@ -45,4 +45,30 @@ public class BoardController {
 		return "boardList";  // 패킹해서 넘김
 	}
 	
+	//글 삭제 폼으로 
+	@RequestMapping(value="delet_form")
+	public String delet_form() {
+		
+		return "delete_form"; // 삭제 폼 연결
+	}
+	
+	//글 삭제 폼 번호 체크	
+	@RequestMapping(value="deleteOk")
+	public String deleteOk(HttpServletRequest request, Model model) {
+
+		
+		// 인풋문에서 받아옴
+		String bnum = request.getParameter("bnum");
+
+		
+
+		BoardDao boardDao = new BoardDao();
+		boardDao.deleteOk(bnum);
+		
+		
+			
+		
+		return "redirect:boardList"; // 게시판 리스트로 요청을 다시들어가서 값을 실어서 리다이렉트
+	}
+	
 }

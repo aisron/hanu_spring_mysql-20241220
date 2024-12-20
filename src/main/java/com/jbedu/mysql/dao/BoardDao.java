@@ -77,6 +77,9 @@ public class BoardDao {
 			e.printStackTrace();
 		} finally {
 			try {
+				if(rs != null) {
+					rs.close();
+				}
 				if(pstmt != null) {
 					pstmt.close();
 				}
@@ -91,7 +94,36 @@ public class BoardDao {
 		return boardDtos;
 	}
 	
-	
+	public int boardDelete(int bnum) {
+		String sql = "DELETE FROM mvc_board WHERE bnum=?";
+		
+		Connection conn =null;
+		PreparedStatement pstmt = null;
+		int success = 0;
+		try {
+			Class.forName(driverName);
+			conn = DriverManager.getConnection(url, username, password);
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bnum);
+			
+			success = pstmt.executeUpdate();//삭제 성공->1, 실패->0
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return success;
+	}
 	
 	
 	
