@@ -268,3 +268,14 @@ boardList jsp 작성 ---------------------------------
 	<c:forEach var="bDto" items="${bDtos }">
 		${bDto.bnum} / ${bDto.banme }  / ${bDto.btitle }  / ${bDto.bdate } / ${bDto.bhit } <br> 
 	</c:forEach>
+	
+	
+	
+----- 숙제 ---------------
+	delete_form .jsp
+	글삭제 폼 만들기
+글 삭제 번호 :
+삭제 버튼 
+
+!삭제 된 후에는 리스트로 가기   
+(일단 있는 번호만 )
