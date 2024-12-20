@@ -13,62 +13,65 @@ import com.jbedu.mysql.dto.BoardDto;
 
 @Controller
 public class BoardController {
-	@RequestMapping(value="write_form")
+
+	@RequestMapping(value = "/write_form")
 	public String write_form() {
 		return "write_form";
 	}
-	
-	@RequestMapping(value="writeOk")
+
+	@RequestMapping(value = "/delete_form")
+	public String delete_form() {
+		return "delete_form";
+	}
+
+	@RequestMapping(value = "/writeOk")
 	public String writeOk(HttpServletRequest request, Model model) {
-		
+
 		String bname = request.getParameter("bname");
 		String btitle = request.getParameter("btitle");
 		String bcontent = request.getParameter("bcontent");
-		
+
 		BoardDao boardDao = new BoardDao();
 		boardDao.boardWrite(bname, btitle, bcontent);
-		
-		return "redirect:boardList"; // 게시판 리스트로 요청을 다시들어가서 값을 실어서 리다이렉트
+
+		return "redirect:boardList";
 	}
-	
-	
-	@RequestMapping(value="/boardList")
+
+	@RequestMapping(value = "/boardList")
 	public String boardList(HttpServletRequest request, Model model) {
-		
-		//모든 글 목록 가져와서 넘겨주면 
-		//가져오기
+
 		BoardDao boardDao = new BoardDao();
-		ArrayList<BoardDto> bDtos = boardDao.boardList(); // 모든 글 목록 -> 왜 모든글 목록인지 이해 필요
-		
-		model.addAttribute("bDtos", bDtos); 		
-		
-		return "boardList";  // 패킹해서 넘김
+		ArrayList<BoardDto> bDtos = boardDao.boardList();// 모든 글 목록
+
+		model.addAttribute("bDtos", bDtos);
+
+		return "boardList";
 	}
-	
-	//글 삭제 폼으로 
-	@RequestMapping(value="delet_form")
-	public String delet_form() {
-		
-		return "delete_form"; // 삭제 폼 연결
-	}
-	
-	//글 삭제 폼 번호 체크	
-	@RequestMapping(value="deleteOk")
+
+	@RequestMapping(value = "/deleteOk")
 	public String deleteOk(HttpServletRequest request, Model model) {
-
 		
-		// 인풋문에서 받아옴
-		String bnum = request.getParameter("bnum");
-
-		
-
 		BoardDao boardDao = new BoardDao();
-		boardDao.deleteOk(bnum);
+		int deleteFlag = boardDao.boardDelete(request.getParameter("bnum"));
+		//글 삭제 성공 deleteFlag = 1, 실패 0
 		
-		
+		if(deleteFlag != 1) {//존재하지 않는 글번호 삭제 시도->삭제 실패
 			
+			model.addAttribute("msg", "이미 삭제된 글번호 입니다.");
+			model.addAttribute("url", "boardList");
+			
+			return "alert";
+		} 
+			
+		return "redirect:boardList";
 		
-		return "redirect:boardList"; // 게시판 리스트로 요청을 다시들어가서 값을 실어서 리다이렉트
+		
+		
 	}
-	
+
+	@RequestMapping(value = "/alert")
+	public String alert() {
+		return "alert";
+	}
+
 }
