@@ -3,6 +3,11 @@ package com.jbedu.mysql.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.jbedu.mysql.dto.BoardDto;
 
 public class BoardDao {
 	
@@ -43,5 +48,60 @@ public class BoardDao {
 			}
 		}
 	}
+	
+	//모든 글 리스트 보기
+	public ArrayList<BoardDto> boardList() {
+		String sql = "SELECT * FROM mvc_board ORDER BY bnum DESC";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		BoardDto boardDto = null;
+		ArrayList<BoardDto> boardDtos = new ArrayList<BoardDto>(); 
+		
+		try {
+			Class.forName(driverName);
+			conn = DriverManager.getConnection(url, username, password);
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				boardDto = new BoardDto(rs.getInt("bnum"), rs.getString("bname"), rs.getString("btitle"), rs.getString("bcontent"), rs.getString("bdate"), rs.getInt("bhit"));
+				boardDtos.add(boardDto);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return boardDtos;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -235,5 +235,27 @@ mysql  드라이버 구버전 아파치톰캣서버 lib 폴더에 붙여넣기
 서버 재부팅
 
 ---------------------------------------------
+dao 클래스 글목록 가져오기 메소드 boardList 추가
 
+	// 모든 글 리스트 보기 dao
+public ArrayList<BoardDto> boardList() {
+}
 
+------------------------------------------------
+컨트롤러 작성 글작성
+
+	
+	@RequestMapping(value="/boardList")
+	public String boardList(HttpServletRequest request, Model model) {
+		
+		//모든 글 목록 가져와서 넘겨주면 
+		//가져오기
+		BoardDao boardDao = new BoardDao();
+		ArrayList<BoardDto> bDtos = boardDao.boardList(); // 모든 글 목록 -> 왜 모든글 목록인지 이해 필요
+		
+		model.addAttribute("bDtos", bDtos); 		
+		
+		return "boardList"; // 패킹해서 넘김
+	}
+
+boardList jsp 작성 ---------------------------------
