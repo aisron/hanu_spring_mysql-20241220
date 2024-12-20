@@ -17,6 +17,7 @@ public class BoardController {
 	public String write_form() {
 		return "write_form";
 	}
+	
 	@RequestMapping(value="writeOk")
 	public String writeOk(HttpServletRequest request, Model model) {
 		
@@ -27,7 +28,7 @@ public class BoardController {
 		BoardDao boardDao = new BoardDao();
 		boardDao.boardWrite(bname, btitle, bcontent);
 		
-		return "redirect:boardList"; // 게시판 리스트로 리다이렉트
+		return "redirect:boardList"; // 게시판 리스트로 요청을 다시들어가서 값을 실어서 리다이렉트
 	}
 	
 	
@@ -41,7 +42,7 @@ public class BoardController {
 		
 		model.addAttribute("bDtos", bDtos); 		
 		
-		return "boardList";
+		return "boardList";  // 패킹해서 넘김
 	}
 	
 }
